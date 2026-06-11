@@ -211,6 +211,8 @@
   const thingSpeakURL =
     "https://api.thingspeak.com/channels/3404991/feeds/last.json?api_key=TWAZJOVPY3K7YXPJ";
 
+  const ALARM_ACTIVE_MINUTES = 10;
+
   function updateDashboard(data, saveToHistory = true) {
     const mainStatus = document.getElementById("mainStatus");
     const statusText = document.getElementById("statusText");
@@ -238,14 +240,14 @@
     if (data.status === "ALARM") {
       mainStatus.innerText = "⚠️ WASSERALARM";
       mainStatus.className = "status alarm";
-      statusText.innerText = "Achtung! Wasser wurde erkannt.";
+      statusText.innerText = "Achtung! Wasser wurde erkannt. Die letzte Alarmmeldung ist aktuell.";
     } else {
-      mainStatus.innerText = "✅ KEIN ALARM";
+      mainStatus.innerText = "✅ KEIN AKTUELLER ALARM";
       mainStatus.className = "status safe";
-      statusText.innerText = "Das System meldet keinen Wasseraustritt.";
+      statusText.innerText = "Es liegt keine aktuelle Alarmmeldung vor.";
     }
 
-    if (saveToHistory) {
+    if (saveToHistory && data.status === "ALARM") {
       const lastItem = history[0];
 
       if (!lastItem || lastItem.time !== data.time || lastItem.status !== data.status) {
@@ -266,7 +268,12 @@
       const alarm = data.field1;
       const lat = data.field2;
       const lon = data.field3;
-      const alarmText = data.field4 || "-";
+      const rawAlarmText = data.field4 || "-";
+
+      const lastTime = new Date(data.created_at);
+      const now = new Date();
+      const ageMinutes = (now - lastTime) / 1000 / 60;
+      const alarmIsFresh = ageMinutes <= ALARM_ACTIVE_MINUTES;
 
       let maps = "";
       if (lat && lon) {
@@ -275,13 +282,13 @@
 
       updateDashboard({
         device: "ESP32-WATER-01",
-        status: alarm == "1" ? "ALARM" : "OK",
+        status: (alarm == "1" && alarmIsFresh) ? "ALARM" : "OK",
         source: "ThingSpeak",
         lat: lat,
         lon: lon,
-        alarmText: alarmText,
+        alarmText: alarmIsFresh ? rawAlarmText : "Keine aktuelle Alarmmeldung",
         maps: maps,
-        time: new Date(data.created_at).toLocaleString()
+        time: lastTime.toLocaleString()
       });
 
     } catch (err) {
@@ -297,7 +304,7 @@
     if (history.length === 0) {
       table.innerHTML = `
         <tr>
-          <td colspan="5">Noch keine Meldungen vorhanden.</td>
+          <td colspan="5">Noch keine Alarmmeldungen vorhanden.</td>
         </tr>
       `;
       return;
