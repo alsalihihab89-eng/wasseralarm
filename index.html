@@ -1,6 +1,3 @@
-Hier ist dein kompletter Code mit professionellerem Design und Sprachumschaltung **Deutsch / English / العربية**:
-
-```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -8,7 +5,7 @@ Hier ist dein kompletter Code mit professionellerem Design und Sprachumschaltung
   <title>Wasseralarm System</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <style>
+  <script type="text/javascript" src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=Y7h50LronhAtz1sH2mrBz-o5eT8jrXQPM-3IcdXwbQ911qH8fpIn_ezAtdIp5NkgghsMl6I8njDAirDtb-VxOorpDIS1fYrYNYZQw-ZL1PtPU3-TPfaZ1FbBRcv7TodnosUgkQ17-tVfDZ2hs-6rm6Q36AEEWMqI_-_lTwW0w2SSlr4sAKPkbkgpWwKlBL9hhS6RXNpDFTknxwki8Tgzu5SoYnXWkhSQaMVgQ1sxu-DbnCjD9x21opx8V6kLjanBGxgoYPaUJjjsH2k0_53Z6Q" charset="UTF-8"></script><style>
     * { box-sizing: border-box; }
 
     body {
@@ -28,11 +25,12 @@ Hier ist dein kompletter Code mit professionellerem Design und Sprachumschaltung
 
     header {
       padding: 24px;
-      background: rgba(0,0,0,0.35);
+      background: rgba(0,0,0,0.38);
       position: sticky;
       top: 0;
       z-index: 10;
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255,255,255,0.25);
     }
 
@@ -48,8 +46,27 @@ Hier ist dein kompletter Code mit professionellerem Design und Sprachumschaltung
       text-shadow: 0 2px 10px rgba(0,0,0,0.45);
     }
 
+    .status-card h2,
+    .box strong,
+    #historyTitle {
+      color: #005fa3;
+      text-shadow: none;
+    }
+
     .lang-buttons {
-      margin-top: 15px;
+      position: absolute;
+      left: 20px;
+      top: 18px;
+      margin-top: 0;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+
+    body[dir="rtl"] .lang-buttons {
+      left: auto;
+      right: 20px;
     }
 
     .container {
@@ -59,11 +76,12 @@ Hier ist dein kompletter Code mit professionellerem Design und Sprachumschaltung
     }
 
     .status-card, .box, table {
-      background: rgba(255,255,255,0.30);
-      border: 1px solid rgba(255,255,255,0.50);
+      background: rgba(255,255,255,0.92);
+      color: #063c5c;
+      border: 1px solid rgba(255,255,255,0.95);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.28);
     }
 
     .status-card {
@@ -104,19 +122,27 @@ Hier ist dein kompletter Code mit professionellerem Design und Sprachumschaltung
     .box strong {
       display: block;
       margin-bottom: 10px;
-      color: white;
-      font-size: 16px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      color: #005fa3;
+      font-size: 17px;
+      font-weight: 800;
+      text-shadow: none;
+    }
+
+    .box span,
+    .status-card p,
+    td {
+      color: #063c5c;
+      font-weight: 600;
     }
 
     button, .map-button {
       display: inline-block;
-      background: white;
-      color: #063142;
-      border: none;
+      background: #ffffff;
+      color: #005fa3;
+      border: 1px solid rgba(0,95,163,0.18);
       border-radius: 12px;
       padding: 12px 18px;
-      font-weight: bold;
+      font-weight: 800;
       cursor: pointer;
       margin: 6px;
       text-decoration: none;
@@ -142,8 +168,41 @@ Hier ist dein kompletter Code mit professionellerem Design und Sprachumschaltung
     }
 
     th {
-      background: rgba(0,0,0,0.35);
+      background: #005fa3;
       color: white;
+    }
+
+    table a {
+      color: #005fa3 !important;
+      font-weight: 800;
+    }
+
+
+    #mapsText {
+      color: #063c5c;
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .map-button {
+      background: #005fa3;
+      color: #ffffff;
+    }
+
+    .map-button:hover {
+      background: #0078c9;
+    }
+
+    @media (max-width: 760px) {
+      .lang-buttons {
+        position: static;
+        justify-content: center;
+        margin-top: 15px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
     }
 
     footer {
@@ -344,6 +403,7 @@ Hier ist dein kompletter Code mit professionellerem Design und Sprachumschaltung
 
     document.documentElement.lang = lang;
     document.body.style.direction = lang === "ar" ? "rtl" : "ltr";
+    document.body.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
 
     document.getElementById("pageTitle").innerText = t.title;
     document.getElementById("pageSubtitle").innerText = t.subtitle;
@@ -495,4 +555,3 @@ Hier ist dein kompletter Code mit professionellerem Design und Sprachumschaltung
 
 </body>
 </html>
-```
