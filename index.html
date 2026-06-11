@@ -49,9 +49,7 @@
       margin: 15px 0;
     }
 
-    .safe {
-      color: #8cffb0;
-    }
+    .safe { color: #8cffb0; }
 
     .alarm {
       color: #ff6b6b;
@@ -82,7 +80,8 @@
       color: #dffaff;
     }
 
-    button {
+    button, .map-button {
+      display: inline-block;
       background: #dffaff;
       color: #063142;
       border: none;
@@ -91,15 +90,11 @@
       font-weight: bold;
       cursor: pointer;
       margin: 6px;
+      text-decoration: none;
     }
 
-    button:hover {
+    button:hover, .map-button:hover {
       background: white;
-    }
-
-    a {
-      color: white;
-      font-weight: bold;
     }
 
     table {
@@ -141,11 +136,9 @@
 
   <div class="status-card">
     <h2>Aktueller Status</h2>
-    <div id="mainStatus" class="status safe">KEIN ALARM</div>
-    <p id="statusText">Das System meldet keinen Wasseraustritt.</p>
+    <div id="mainStatus" class="status safe">Lade Daten...</div>
+    <p id="statusText">Warte auf ThingSpeak-Daten.</p>
 
-    <button onclick="simulateAlarm()">Test Alarm</button>
-    <button onclick="simulateSafe()">Test Sicher</button>
     <button onclick="clearHistory()">Verlauf löschen</button>
   </div>
 
@@ -161,13 +154,8 @@
     </div>
 
     <div class="box">
-      <strong>Signal</strong>
-      <span id="signal">-</span>
-    </div>
-
-    <div class="box">
-      <strong>Batterie</strong>
-      <span id="battery">-</span>
+      <strong>Quelle</strong>
+      <span id="signal">ThingSpeak</span>
     </div>
   </div>
 
@@ -189,8 +177,11 @@
   </div>
 
   <div class="status-card">
-    <h2>Standort</h2>
-    <a id="mapLink" href="#" target="_blank">📍 Standort öffnen</a>
+    <h2>Empfangener Standort-Link</h2>
+    <p id="mapsText">Noch kein Standort empfangen.</p>
+    <a id="mapLink" class="map-button" href="#" target="_blank">
+      📍 Standort öffnen
+    </a>
   </div>
 
   <h2>Alarm Verlauf</h2>
@@ -201,8 +192,8 @@
         <th>Zeit</th>
         <th>Gerät</th>
         <th>Status</th>
-        <th>Signal</th>
-        <th>Batterie</th>
+        <th>Alarmtext</th>
+        <th>Standort</th>
       </tr>
     </thead>
     <tbody id="historyTable"></tbody>
@@ -226,8 +217,23 @@
 
     document.getElementById("deviceId").innerText = data.device || "ESP32-WATER-01";
     document.getElementById("lastUpdate").innerText = data.time;
-    document.getElementById("signal").innerText = data.signal || "-";
-    document.getElementById("battery").innerText = data.battery || "-";
+    document.getElementById("signal").innerText = data.source || "ThingSpeak";
+
+    document.getElementById("latitude").innerText = data.lat || "-";
+    document.getElementById("longitude").innerText = data.lon || "-";
+    document.getElementById("alarmText").innerText = data.alarmText || "-";
+
+    if (data.maps) {
+      document.getElementById("mapsText").innerText = data.maps;
+      document.getElementById("mapLink").href = data.maps;
+      document.getElementById("mapLink").style.pointerEvents = "auto";
+      document.getElementById("mapLink").style.opacity = "1";
+    } else {
+      document.getElementById("mapsText").innerText = "Noch kein Standort empfangen.";
+      document.getElementById("mapLink").href = "#";
+      document.getElementById("mapLink").style.pointerEvents = "none";
+      document.getElementById("mapLink").style.opacity = "0.5";
+    }
 
     if (data.status === "ALARM") {
       mainStatus.innerText = "⚠️ WASSERALARM";
@@ -262,22 +268,19 @@
       const lon = data.field3;
       const alarmText = data.field4 || "-";
 
-      document.getElementById("latitude").innerText = lat || "-";
-      document.getElementById("longitude").innerText = lon || "-";
-      document.getElementById("alarmText").innerText = alarmText;
-
+      let maps = "";
       if (lat && lon) {
-        const maps = `https://maps.google.com/?q=${lat},${lon}`;
-        const mapLink = document.getElementById("mapLink");
-        mapLink.href = maps;
-        mapLink.innerText = "📍 Standort in Google Maps öffnen";
+        maps = `https://maps.google.com/?q=${lat},${lon}`;
       }
 
       updateDashboard({
         device: "ESP32-WATER-01",
         status: alarm == "1" ? "ALARM" : "OK",
-        signal: "ThingSpeak",
-        battery: "-",
+        source: "ThingSpeak",
+        lat: lat,
+        lon: lon,
+        alarmText: alarmText,
+        maps: maps,
         time: new Date(data.created_at).toLocaleString()
       });
 
@@ -305,30 +308,12 @@
         <td>${item.time}</td>
         <td>${item.device}</td>
         <td>${item.status}</td>
-        <td>${item.signal || "-"}</td>
-        <td>${item.battery || "-"}</td>
+        <td>${item.alarmText || "-"}</td>
+        <td>
+          ${item.maps ? `<a href="${item.maps}" target="_blank" style="color:white;">Standort öffnen</a>` : "-"}
+        </td>
       </tr>
     `).join("");
-  }
-
-  function simulateAlarm() {
-    updateDashboard({
-      device: "ESP32-WATER-01",
-      status: "ALARM",
-      signal: "Test",
-      battery: "87%",
-      time: new Date().toLocaleString()
-    });
-  }
-
-  function simulateSafe() {
-    updateDashboard({
-      device: "ESP32-WATER-01",
-      status: "OK",
-      signal: "Test",
-      battery: "88%",
-      time: new Date().toLocaleString()
-    });
   }
 
   function clearHistory() {
