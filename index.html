@@ -1,3 +1,6 @@
+Hier ist dein kompletter Code mit professionellerem Design und Sprachumschaltung **Deutsch / English / العربية**:
+
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -7,51 +10,66 @@
 
   <style>
     * { box-sizing: border-box; }
-   body {
-  margin: 0;
-  font-family: Arial, sans-serif;
 
-  background:
-    linear-gradient(
-      rgba(0,20,35,0.70),
-      rgba(0,45,65,0.75)
-    ),
-    url('wasserschaden.png');
-
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-
-  color: white;
-  min-height: 100vh;
-  text-align: center;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background:
+        linear-gradient(rgba(0,20,35,0.62), rgba(0,45,65,0.68)),
+        url('wasserschaden.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+      min-height: 100vh;
+      text-align: center;
+    }
 
     header {
-      padding: 20px;
-      background: rgba(0,0,0,0.25);
+      padding: 24px;
+      background: rgba(0,0,0,0.35);
       position: sticky;
       top: 0;
       z-index: 10;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.25);
     }
 
-    h1 { margin: 0; color: #dffaff; }
-    h2 { color: #dffaff; }
+    h1 {
+      margin: 0;
+      color: white;
+      font-size: 38px;
+      text-shadow: 0 3px 15px rgba(0,0,0,0.6);
+    }
+
+    h2 {
+      color: white;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.45);
+    }
+
+    .lang-buttons {
+      margin-top: 15px;
+    }
 
     .container {
-      max-width: 1000px;
+      max-width: 1050px;
       margin: auto;
       padding: 30px 15px;
+    }
+
+    .status-card, .box, table {
+      background: rgba(255,255,255,0.30);
+      border: 1px solid rgba(255,255,255,0.50);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
     }
 
     .status-card {
       margin: 25px auto;
       padding: 30px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.12);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
     }
 
     .status {
@@ -60,80 +78,80 @@
       margin: 15px 0;
     }
 
-    .safe { color: #8cffb0; }
+    .safe { color: #b8ffce; }
 
     .alarm {
-      color: #ff6b6b;
+      color: #ff4d4d;
       animation: blink 1s infinite;
     }
 
     @keyframes blink {
-      50% { opacity: 0.4; }
+      50% { opacity: 0.45; }
     }
 
     .info-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 15px;
+      gap: 16px;
       margin-top: 25px;
     }
 
     .box {
-      background: rgba(255,255,255,0.13);
-      padding: 20px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.15);
+      padding: 22px;
+      border-radius: 16px;
     }
 
-   .box {
-  background: rgba(255,255,255,0.30);
-  padding: 20px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.50);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-}
+    .box strong {
+      display: block;
+      margin-bottom: 10px;
+      color: white;
+      font-size: 16px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
     button, .map-button {
       display: inline-block;
-      background: #dffaff;
+      background: white;
       color: #063142;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 12px 18px;
       font-weight: bold;
       cursor: pointer;
       margin: 6px;
       text-decoration: none;
+      transition: all 0.3s ease;
     }
 
     button:hover, .map-button:hover {
-      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
     }
 
     table {
       width: 100%;
       margin-top: 25px;
       border-collapse: collapse;
-      background: rgba(255,255,255,0.10);
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
     }
 
     th, td {
-      padding: 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
+      padding: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.18);
     }
 
     th {
-      background: rgba(0,0,0,0.25);
-      color: #dffaff;
+      background: rgba(0,0,0,0.35);
+      color: white;
     }
 
     footer {
-      padding: 20px;
-      background: rgba(0,0,0,0.2);
+      padding: 22px;
+      background: rgba(0,0,0,0.35);
       margin-top: 40px;
       font-size: 14px;
+      backdrop-filter: blur(10px);
     }
   </style>
 </head>
@@ -141,33 +159,39 @@
 <body>
 
 <header>
-  <h1>💧 Wasseralarm System</h1>
-  <p>ESP32 + SIM800L Live Alarm Dashboard</p>
+  <h1 id="pageTitle">💧 Wasseralarm System</h1>
+  <p id="pageSubtitle">ESP32 + SIM800L Live Alarm Dashboard</p>
+
+  <div class="lang-buttons">
+    <button onclick="setLanguage('de')">🇩🇪 Deutsch</button>
+    <button onclick="setLanguage('en')">🇬🇧 English</button>
+    <button onclick="setLanguage('ar')">🇸🇦 العربية</button>
+  </div>
 </header>
 
 <div class="container">
 
   <div class="status-card">
-    <h2>Aktueller Status</h2>
+    <h2 id="currentStatusTitle">Aktueller Status</h2>
     <div id="mainStatus" class="status safe">Lade Daten...</div>
     <p id="statusText">Warte auf ThingSpeak-Daten.</p>
 
-    <button onclick="clearHistory()">Verlauf löschen</button>
+    <button id="clearBtn" onclick="clearHistory()">Verlauf löschen</button>
   </div>
 
   <div class="info-grid">
     <div class="box">
-      <strong>Gerät</strong>
+      <strong id="deviceLabel">Gerät</strong>
       <span id="deviceId">ESP32-WATER-01</span>
     </div>
 
     <div class="box">
-      <strong>Letzte Meldung</strong>
+      <strong id="lastUpdateLabel">Letzte Meldung</strong>
       <span id="lastUpdate">Noch keine Meldung</span>
     </div>
 
     <div class="box">
-      <strong>Quelle</strong>
+      <strong id="sourceLabel">Quelle</strong>
       <span id="signal">ThingSpeak</span>
     </div>
   </div>
@@ -184,29 +208,27 @@
     </div>
 
     <div class="box">
-      <strong>Alarmtext</strong>
+      <strong id="alarmTextLabel">Alarmtext</strong>
       <span id="alarmText">-</span>
     </div>
   </div>
 
   <div class="status-card">
-    <h2>Empfangener Standort-Link</h2>
+    <h2 id="locationTitle">Empfangener Standort-Link</h2>
     <p id="mapsText">Noch kein Standort empfangen.</p>
-    <a id="mapLink" class="map-button" href="#" target="_blank">
-      📍 Standort öffnen
-    </a>
+    <a id="mapLink" class="map-button" href="#" target="_blank">📍 Standort öffnen</a>
   </div>
 
-  <h2>Alarm Verlauf</h2>
+  <h2 id="historyTitle">Alarm Verlauf</h2>
 
   <table>
     <thead>
       <tr>
-        <th>Zeit</th>
-        <th>Gerät</th>
-        <th>Status</th>
-        <th>Alarmtext</th>
-        <th>Standort</th>
+        <th id="timeTh">Zeit</th>
+        <th id="deviceTh">Gerät</th>
+        <th id="statusTh">Status</th>
+        <th id="alarmTextTh">Alarmtext</th>
+        <th id="locationTh">Standort</th>
       </tr>
     </thead>
     <tbody id="historyTable"></tbody>
@@ -214,19 +236,140 @@
 
 </div>
 
-<footer>
+<footer id="footerText">
   © 2026 Wasseralarm System – Erstellt von Ihab Al Ahmad Al Salih
 </footer>
 
 <script>
   let history = JSON.parse(localStorage.getItem("water_alarm_history") || "[]");
+  let currentLang = localStorage.getItem("lang") || "de";
 
   const thingSpeakURL =
     "https://api.thingspeak.com/channels/3404991/feeds/last.json?api_key=TWAZJOVPY3K7YXPJ";
 
   const ALARM_ACTIVE_MINUTES = 10;
 
+  const translations = {
+    de: {
+      title: "💧 Wasseralarm System",
+      subtitle: "ESP32 + SIM800L Live Alarm Dashboard",
+      currentStatus: "Aktueller Status",
+      loading: "Lade Daten...",
+      waiting: "Warte auf ThingSpeak-Daten.",
+      clear: "Verlauf löschen",
+      device: "Gerät",
+      lastUpdate: "Letzte Meldung",
+      source: "Quelle",
+      alarmText: "Alarmtext",
+      locationTitle: "Empfangener Standort-Link",
+      noLocation: "Noch kein Standort empfangen.",
+      openMap: "📍 Standort öffnen",
+      openMapFull: "📍 Standort in Google Maps öffnen",
+      history: "Alarm Verlauf",
+      time: "Zeit",
+      status: "Status",
+      location: "Standort",
+      noHistory: "Noch keine Alarmmeldungen vorhanden.",
+      alarm: "⚠️ WASSERALARM",
+      noAlarm: "✅ KEIN AKTUELLER ALARM",
+      alarmMsg: "Achtung! Wasser wurde erkannt. Die letzte Alarmmeldung ist aktuell.",
+      safeMsg: "Es liegt keine aktuelle Alarmmeldung vor.",
+      noCurrentAlarm: "Keine aktuelle Alarmmeldung",
+      fetchError: "Fehler beim Laden der ThingSpeak-Daten.",
+      footer: "© 2026 Wasseralarm System – Erstellt von Ihab Al Ahmad Al Salih"
+    },
+    en: {
+      title: "💧 Water Alarm System",
+      subtitle: "ESP32 + SIM800L Live Alarm Dashboard",
+      currentStatus: "Current Status",
+      loading: "Loading data...",
+      waiting: "Waiting for ThingSpeak data.",
+      clear: "Clear History",
+      device: "Device",
+      lastUpdate: "Last Update",
+      source: "Source",
+      alarmText: "Alarm Message",
+      locationTitle: "Received Location Link",
+      noLocation: "No location received yet.",
+      openMap: "📍 Open Location",
+      openMapFull: "📍 Open Location in Google Maps",
+      history: "Alarm History",
+      time: "Time",
+      status: "Status",
+      location: "Location",
+      noHistory: "No alarm messages available yet.",
+      alarm: "⚠️ WATER ALARM",
+      noAlarm: "✅ NO CURRENT ALARM",
+      alarmMsg: "Warning! Water has been detected. The last alarm message is current.",
+      safeMsg: "There is no current alarm message.",
+      noCurrentAlarm: "No current alarm message",
+      fetchError: "Error loading ThingSpeak data.",
+      footer: "© 2026 Water Alarm System – Created by Ihab Al Ahmad Al Salih"
+    },
+    ar: {
+      title: "💧 نظام إنذار تسرب المياه",
+      subtitle: "لوحة مراقبة مباشرة باستخدام ESP32 + SIM800L",
+      currentStatus: "الحالة الحالية",
+      loading: "جاري تحميل البيانات...",
+      waiting: "في انتظار بيانات ThingSpeak.",
+      clear: "حذف السجل",
+      device: "الجهاز",
+      lastUpdate: "آخر بلاغ",
+      source: "المصدر",
+      alarmText: "نص الإنذار",
+      locationTitle: "رابط الموقع المستلم",
+      noLocation: "لم يتم استلام موقع بعد.",
+      openMap: "📍 فتح الموقع",
+      openMapFull: "📍 فتح الموقع في خرائط Google",
+      history: "سجل الإنذارات",
+      time: "الوقت",
+      status: "الحالة",
+      location: "الموقع",
+      noHistory: "لا توجد بلاغات إنذار حتى الآن.",
+      alarm: "⚠️ إنذار تسرب مياه",
+      noAlarm: "✅ لا يوجد إنذار حالي",
+      alarmMsg: "تحذير! تم اكتشاف تسرب مياه. آخر رسالة إنذار ما زالت حديثة.",
+      safeMsg: "لا توجد رسالة إنذار حالية.",
+      noCurrentAlarm: "لا توجد رسالة إنذار حالية",
+      fetchError: "حدث خطأ أثناء تحميل بيانات ThingSpeak.",
+      footer: "© 2026 نظام إنذار تسرب المياه – إعداد Ihab Al Ahmad Al Salih"
+    }
+  };
+
+  function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem("lang", lang);
+
+    const t = translations[lang];
+
+    document.documentElement.lang = lang;
+    document.body.style.direction = lang === "ar" ? "rtl" : "ltr";
+
+    document.getElementById("pageTitle").innerText = t.title;
+    document.getElementById("pageSubtitle").innerText = t.subtitle;
+    document.getElementById("currentStatusTitle").innerText = t.currentStatus;
+    document.getElementById("clearBtn").innerText = t.clear;
+    document.getElementById("deviceLabel").innerText = t.device;
+    document.getElementById("lastUpdateLabel").innerText = t.lastUpdate;
+    document.getElementById("sourceLabel").innerText = t.source;
+    document.getElementById("alarmTextLabel").innerText = t.alarmText;
+    document.getElementById("locationTitle").innerText = t.locationTitle;
+    document.getElementById("historyTitle").innerText = t.history;
+
+    document.getElementById("timeTh").innerText = t.time;
+    document.getElementById("deviceTh").innerText = t.device;
+    document.getElementById("statusTh").innerText = t.status;
+    document.getElementById("alarmTextTh").innerText = t.alarmText;
+    document.getElementById("locationTh").innerText = t.location;
+
+    document.getElementById("footerText").innerText = t.footer;
+
+    renderHistory();
+    loadThingSpeakData();
+  }
+
   function updateDashboard(data, saveToHistory = true) {
+    const t = translations[currentLang];
     const mainStatus = document.getElementById("mainStatus");
     const statusText = document.getElementById("statusText");
 
@@ -241,23 +384,25 @@
     if (data.maps) {
       document.getElementById("mapsText").innerText = data.maps;
       document.getElementById("mapLink").href = data.maps;
+      document.getElementById("mapLink").innerText = t.openMapFull;
       document.getElementById("mapLink").style.pointerEvents = "auto";
       document.getElementById("mapLink").style.opacity = "1";
     } else {
-      document.getElementById("mapsText").innerText = "Noch kein Standort empfangen.";
+      document.getElementById("mapsText").innerText = t.noLocation;
       document.getElementById("mapLink").href = "#";
+      document.getElementById("mapLink").innerText = t.openMap;
       document.getElementById("mapLink").style.pointerEvents = "none";
       document.getElementById("mapLink").style.opacity = "0.5";
     }
 
     if (data.status === "ALARM") {
-      mainStatus.innerText = "⚠️ WASSERALARM";
+      mainStatus.innerText = t.alarm;
       mainStatus.className = "status alarm";
-      statusText.innerText = "Achtung! Wasser wurde erkannt. Die letzte Alarmmeldung ist aktuell.";
+      statusText.innerText = t.alarmMsg;
     } else {
-      mainStatus.innerText = "✅ KEIN AKTUELLER ALARM";
+      mainStatus.innerText = t.noAlarm;
       mainStatus.className = "status safe";
-      statusText.innerText = "Es liegt keine aktuelle Alarmmeldung vor.";
+      statusText.innerText = t.safeMsg;
     }
 
     if (saveToHistory && data.status === "ALARM") {
@@ -274,6 +419,8 @@
   }
 
   async function loadThingSpeakData() {
+    const t = translations[currentLang];
+
     try {
       const response = await fetch(thingSpeakURL);
       const data = await response.json();
@@ -299,25 +446,25 @@
         source: "ThingSpeak",
         lat: lat,
         lon: lon,
-        alarmText: alarmIsFresh ? rawAlarmText : "Keine aktuelle Alarmmeldung",
+        alarmText: alarmIsFresh ? rawAlarmText : t.noCurrentAlarm,
         maps: maps,
         time: lastTime.toLocaleString()
       });
 
     } catch (err) {
       console.log("ThingSpeak Fehler:", err);
-      document.getElementById("statusText").innerText =
-        "Fehler beim Laden der ThingSpeak-Daten.";
+      document.getElementById("statusText").innerText = t.fetchError;
     }
   }
 
   function renderHistory() {
+    const t = translations[currentLang];
     const table = document.getElementById("historyTable");
 
     if (history.length === 0) {
       table.innerHTML = `
         <tr>
-          <td colspan="5">Noch keine Alarmmeldungen vorhanden.</td>
+          <td colspan="5">${t.noHistory}</td>
         </tr>
       `;
       return;
@@ -330,7 +477,7 @@
         <td>${item.status}</td>
         <td>${item.alarmText || "-"}</td>
         <td>
-          ${item.maps ? `<a href="${item.maps}" target="_blank" style="color:white;">Standort öffnen</a>` : "-"}
+          ${item.maps ? `<a href="${item.maps}" target="_blank" style="color:white;">${t.openMap}</a>` : "-"}
         </td>
       </tr>
     `).join("");
@@ -342,10 +489,10 @@
     renderHistory();
   }
 
-  renderHistory();
-  loadThingSpeakData();
+  setLanguage(currentLang);
   setInterval(loadThingSpeakData, 15000);
 </script>
 
 </body>
 </html>
+```
