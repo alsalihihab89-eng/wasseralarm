@@ -97,6 +97,11 @@
       background: white;
     }
 
+    a {
+      color: white;
+      font-weight: bold;
+    }
+
     table {
       width: 100%;
       margin-top: 25px;
@@ -166,6 +171,28 @@
     </div>
   </div>
 
+  <div class="info-grid">
+    <div class="box">
+      <strong>Latitude</strong>
+      <span id="latitude">-</span>
+    </div>
+
+    <div class="box">
+      <strong>Longitude</strong>
+      <span id="longitude">-</span>
+    </div>
+
+    <div class="box">
+      <strong>Alarmtext</strong>
+      <span id="alarmText">-</span>
+    </div>
+  </div>
+
+  <div class="status-card">
+    <h2>Standort</h2>
+    <a id="mapLink" href="#" target="_blank">📍 Standort öffnen</a>
+  </div>
+
   <h2>Alarm Verlauf</h2>
 
   <table>
@@ -190,7 +217,10 @@
 <script>
   let history = JSON.parse(localStorage.getItem("water_alarm_history") || "[]");
 
-  function updateDashboard(data) {
+  const thingSpeakURL =
+    "https://api.thingspeak.com/channels/3404991/feeds/last.json?api_key=TWAZJOVPY3K7YXPJ";
+
+  function updateDashboard(data, saveToHistory = true) {
     const mainStatus = document.getElementById("mainStatus");
     const statusText = document.getElementById("statusText");
 
@@ -209,10 +239,53 @@
       statusText.innerText = "Das System meldet keinen Wasseraustritt.";
     }
 
-    history.unshift(data);
-    history = history.slice(0, 20);
-    localStorage.setItem("water_alarm_history", JSON.stringify(history));
+    if (saveToHistory) {
+      const lastItem = history[0];
+
+      if (!lastItem || lastItem.time !== data.time || lastItem.status !== data.status) {
+        history.unshift(data);
+        history = history.slice(0, 20);
+        localStorage.setItem("water_alarm_history", JSON.stringify(history));
+      }
+    }
+
     renderHistory();
+  }
+
+  async function loadThingSpeakData() {
+    try {
+      const response = await fetch(thingSpeakURL);
+      const data = await response.json();
+
+      const alarm = data.field1;
+      const lat = data.field2;
+      const lon = data.field3;
+      const alarmText = data.field4 || "-";
+
+      document.getElementById("latitude").innerText = lat || "-";
+      document.getElementById("longitude").innerText = lon || "-";
+      document.getElementById("alarmText").innerText = alarmText;
+
+      if (lat && lon) {
+        const maps = `https://maps.google.com/?q=${lat},${lon}`;
+        const mapLink = document.getElementById("mapLink");
+        mapLink.href = maps;
+        mapLink.innerText = "📍 Standort in Google Maps öffnen";
+      }
+
+      updateDashboard({
+        device: "ESP32-WATER-01",
+        status: alarm == "1" ? "ALARM" : "OK",
+        signal: "ThingSpeak",
+        battery: "-",
+        time: new Date(data.created_at).toLocaleString()
+      });
+
+    } catch (err) {
+      console.log("ThingSpeak Fehler:", err);
+      document.getElementById("statusText").innerText =
+        "Fehler beim Laden der ThingSpeak-Daten.";
+    }
   }
 
   function renderHistory() {
@@ -242,7 +315,7 @@
     updateDashboard({
       device: "ESP32-WATER-01",
       status: "ALARM",
-      signal: "Gut",
+      signal: "Test",
       battery: "87%",
       time: new Date().toLocaleString()
     });
@@ -252,7 +325,7 @@
     updateDashboard({
       device: "ESP32-WATER-01",
       status: "OK",
-      signal: "Gut",
+      signal: "Test",
       battery: "88%",
       time: new Date().toLocaleString()
     });
@@ -265,6 +338,8 @@
   }
 
   renderHistory();
+  loadThingSpeakData();
+  setInterval(loadThingSpeakData, 15000);
 </script>
 
 </body>
